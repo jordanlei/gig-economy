@@ -1,0 +1,23 @@
+{
+  "id": 1234, 
+  "password": "password", 
+  "email": "johndoe@gmail.com",
+  "firstName": "John", 
+  "lastName": "Doe", 
+  "city": "Boston", 
+  "state": "MA", 
+  "zipcode": "02101", 
+  "phoneNumber": "1234567890",
+  "hoursPerWeek": 10, 
+  "drivesOnWeekends": true, 
+  "drivesOnWeekdays": true, 
+  "earliestHourWillingToWork": 7, 
+  "latestHourWillingToWork": 20, 
+  "hasOtherJob": true, 
+  "extentFrustratedInTraffic": 5, 
+  "extentCaresAboutWeatherConditions": 2, 
+  "extentValuesConsistency": 3, 
+  "extentValuesProfit": 4, 
+  "extentValuesEntertainment": 5, 
+  "extentValuesPeople": 2 
+}
