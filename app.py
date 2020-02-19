@@ -2,7 +2,7 @@ from flask import Flask, request
 import numpy as np
 from model import generate_calendar_matrix, traffic_data, events_data, weighted_average, edge_link, simple_model
 
-# CALENDAR_SIZE = (24, 7)
+CALENDAR_SIZE = (24, 7)
 app = Flask(__name__)
 
 @app.route('/')
