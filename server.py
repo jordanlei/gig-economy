@@ -9,6 +9,11 @@ CALENDAR_SIZE = (24, 7) #set calendar size to 24 by 7
 def hello_world():
     return 'Hello, World!'
 
+
+if __name__ == '__main__':
+    app.run()
+
+
 # @app.route('/get_traffic')
 # def get_traffic():
 #     df = generate_calendar_matrix(traffic_data())
