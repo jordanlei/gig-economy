@@ -1,8 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
-import math
-import sklearn
 
 CALENDAR_SIZE = (24, 7) #set calendar size to 24 by 7 
 
@@ -47,8 +44,6 @@ def weighted_average(traffic, events, weights, hours = 20, mask = None):
 def edge_link(wav_thresh): 
     wav_thresh[1: wav_thresh.shape[0] - 1] = wav_thresh[1: wav_thresh.shape[0]-1] | (wav_thresh[2:wav_thresh.shape[0]] & wav_thresh[:wav_thresh.shape[0] - 2])
     return wav_thresh
-
-
         
 
 def simple_model(weights, mask, hours, verbose = False): 
