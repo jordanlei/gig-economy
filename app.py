@@ -1,13 +1,13 @@
 from flask import Flask, request
 import numpy as np
 from model import generate_calendar_matrix, traffic_data, events_data, weighted_average, edge_link, simple_model
-app = Flask(__name__)
 
-CALENDAR_SIZE = (24, 7) #set calendar size to 24 by 7 
+CALENDAR_SIZE = (24, 7)
+app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return 'Hello World!'
 
 @app.route('/get_traffic')
 def get_traffic():
@@ -19,8 +19,8 @@ def get_events():
     df = generate_calendar_matrix(events_data())
     return df.to_json(orient='columns') 
 
-@app.route('/test_post', methods=['POST'])
-def test_user():
+@app.route('/get_recommendations', methods=['POST'])
+def get_recommendations():
     if request.method == 'POST':
         user = request.json
         weights = {'traffic': 1, 
@@ -39,3 +39,7 @@ def test_user():
         df = generate_calendar_matrix(model_output)
         return df.to_json(orient='columns') 
     return "Error"
+
+
+if __name__ == '__main__':
+    app.run()
