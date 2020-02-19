@@ -85,7 +85,6 @@ singledispatch==3.4.0.3
 six==1.11.0
 sklearn==0.0
 tensorboard==2.0.2
-tensorflow==2.0.0
 tensorflow-estimator==2.0.1
 termcolor==1.1.0
 terminado==0.8.1
