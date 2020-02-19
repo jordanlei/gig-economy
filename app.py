@@ -19,8 +19,8 @@ def get_events():
     df = generate_calendar_matrix(events_data())
     return df.to_json(orient='columns') 
 
-@app.route('/test_post', methods=['POST'])
-def test_user():
+@app.route('/get_recommendations', methods=['POST'])
+def get_recommendations():
     if request.method == 'POST':
         user = request.json
         weights = {'traffic': 1, 
