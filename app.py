@@ -1,5 +1,6 @@
 from flask import Flask, request
 import numpy as np
+import json
 from model import generate_calendar_matrix, traffic_data, events_data, weighted_average, edge_link, simple_model
 
 CALENDAR_SIZE = (24, 7)
@@ -27,7 +28,10 @@ def get_recommendations():
                   'events' : 1}
 
         weights['traffic'] = (-1 * (user['extentFrustratedInTraffic'] - 3))/2
-        mask = np.ones(CALENDAR_SIZE)
+        # mask = np.ones(CALENDAR_SIZE)
+        arr = user['availability']
+        # print(arr)
+        mask = np.asarray(arr)
         mask[:user['earliestHourWillingToWork']] = 0
         mask[user['latestHourWillingToWork']:] = 0
         if not user['drivesOnWeekends']:
@@ -37,6 +41,9 @@ def get_recommendations():
         mask = mask.astype(int)
         model_output = simple_model(weights, mask, hours = user['hoursPerWeek'], verbose= False)
         df = generate_calendar_matrix(model_output)
+        temp = np.empty(mask.shape, dtype='int')
+        dic = {'recommendation' : temp.tolist()}
+        return json.dumps(dic)
         return df.to_json(orient='columns') 
     return "Error"
 
