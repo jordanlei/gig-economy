@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return 'Hello World!!'
 
 @app.route('/get_traffic')
 def get_traffic():
@@ -73,7 +73,7 @@ def get_recommendations():
         # # dic = {'recommendation' : temp.tolist()}
         # # return json.dumps(dic, sort_keys=True)
         # return df.to_json(orient='columns') 
-        
+
     return "Error"
 
 
