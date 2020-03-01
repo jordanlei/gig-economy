@@ -1,7 +1,24 @@
 import numpy as np
 import pandas as pd
+from datetime import date, timedelta, datetime
+
+
 
 CALENDAR_SIZE = (24, 7) #set calendar size to 24 by 7 
+
+def get_missing_dates(availability):
+    dates = []
+    for date in availability:
+        d = datetime.strptime(date, '%Y-%m-%d')
+        dates.append(d)
+        
+    date_set = set(dates[0] + timedelta(x) for x in range((dates[-1] - dates[0]).days))
+    missing = sorted(date_set - set(dates))
+    missing_dates = []
+    for date in missing:
+        missing_dates.append(date.strftime("%Y-%m-%d"))
+
+    return missing_dates
 
 def generate_calendar_matrix(arr = None): 
     '''
