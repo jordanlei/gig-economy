@@ -46,33 +46,38 @@ def get_recommendations():
             else:
                 available_times.append([0 for i in range(24)])
 
-        availability_dic = {}
-        for idx, date in enumerate(dates):
-            availability_dic[date] = available_times[idx]
-        return json.dumps(availability_dic, sort_keys=True)
+        # availability_dic = {}
+        # for idx, date in enumerate(dates):
+        #     availability_dic[date] = available_times[idx]
+        # return json.dumps(availability_dic, sort_keys=True)
 
-        # CALENDAR_SIZE = (24, len(dates))
+        CALENDAR_SIZE = (24, len(dates))
+        mask = np.asarray(available_times)
 
-        # mask = np.ones(CALENDAR_SIZE)
-        # # mask = np.asarray(arr)
+        mask[:user['earliestHourWillingToWork']] = 0
+        mask[user['latestHourWillingToWork']:] = 0
 
-        # mask[:user['earliestHourWillingToWork']] = 0
-        # mask[user['latestHourWillingToWork']:] = 0
-
-        # #
+        #
         # if not user['drivesOnWeekends']:
         #     mask[:, 5:] = 0
         # if not user['drivesOnWeekdays']:
         #     mask[:, :5] = 0
-        # mask = mask.astype(int)
-        # model_output = simple_model(weights, mask, hours = user['hoursPerWeek'], verbose= False)
+        mask = mask.astype(int)
+        model_output = simple_model(weights, mask, user['hoursPerWeek'], CALENDAR_SIZE, verbose= False)
 
-        # #simple_model --> json
-        # df = generate_calendar_matrix(model_output)
-        # temp = np.empty(mask.shape, dtype='int')
-        # # dic = {'recommendation' : temp.tolist()}
-        # # return json.dumps(dic, sort_keys=True)
-        # return df.to_json(orient='columns') 
+        #simple_model --> json
+        df = generate_calendar_matrix(model_output, dates, CALENDAR_SIZE)
+        df_dict = df.to_dict('dict')
+
+
+        final_dic = {}
+        for key, val in df_dict.items():
+            rec = []
+            for k, v in val.items():
+                rec.append(1) if v else rec.append(0)
+            final_dic[key] = rec
+
+        return json.dumps(final_dic, sort_keys=True)
 
     return "Error"
 
