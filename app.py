@@ -46,26 +46,20 @@ def get_recommendations():
             else:
                 available_times.append([0 for i in range(24)])
 
-        # availability_dic = {}
-        # for idx, date in enumerate(dates):
-        #     availability_dic[date] = available_times[idx]
-        # return json.dumps(availability_dic, sort_keys=True)
-
         CALENDAR_SIZE = (24, len(dates))
+        for day in available_times:
+            for idx, time in enumerate(day):
+                if idx < user['earliestHourWillingToWork']: day[idx] = 0 
+                if idx > user['latestHourWillingToWork']: day[idx] = 0 
+
         mask = np.asarray(available_times)
-
-        mask[:user['earliestHourWillingToWork']] = 0
-        mask[user['latestHourWillingToWork']:] = 0
-
-        #
-        # if not user['drivesOnWeekends']:
-        #     mask[:, 5:] = 0
-        # if not user['drivesOnWeekdays']:
-        #     mask[:, :5] = 0
+        # return json.dumps(available_times) #FOR DEBUGGING
+        
         mask = mask.astype(int)
-        model_output = simple_model(weights, mask, user['hoursPerWeek'], CALENDAR_SIZE, verbose= False)
+        model_output = simple_model(weights, mask, user['hoursPerWeek'], CALENDAR_SIZE, dates, verbose= False)
+        # return json.dumps(model_output.tolist()) #FOR DEBUGGING. generate_calendear_matrix transposes this matrix to get the true recommendation
 
-        #simple_model --> json
+        #simple_model --> tranpose (24,x) to (x, 24) --> json
         df = generate_calendar_matrix(model_output, dates, CALENDAR_SIZE)
         df_dict = df.to_dict('dict')
 
