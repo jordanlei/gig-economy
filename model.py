@@ -58,7 +58,7 @@ def traffic_data(dates, CALENDAR_SIZE):
         day = findDay(date)
         traffic_weights.append(traffic_boston[day])
     traffic = np.asarray(traffic_weights)
-    traffic = np.transpose(traffic)
+    traffic = np.transpose(traffic) #make (x, 24) into (24,x)
     mean_traffic = np.mean(traffic)
     std_traffic = np.std(traffic)
     normalized = (traffic - mean_traffic) / std_traffic
@@ -88,11 +88,12 @@ def simple_model(weights, mask, hours, CALENDAR_SIZE, dates, verbose = False):
     np.random.seed(8)
     #get traffic data 
     traffic = traffic_data(dates, CALENDAR_SIZE)
-    #return traffic #FOR DEBUGGING
+
+    # return traffic #FOR DEBUGGING
     #get events data
     events = events_data(CALENDAR_SIZE)   
     #get weighted average traffic
     wav_t, wav = weighted_average(traffic, events, weights, CALENDAR_SIZE,hours = hours, mask=mask)
     #edge link    
-    
+    # return wav
     return edge_link(wav_t)

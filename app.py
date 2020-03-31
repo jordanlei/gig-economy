@@ -52,17 +52,18 @@ def get_recommendations():
                 if idx < user['earliestHourWillingToWork']: day[idx] = 0 
                 if idx > user['latestHourWillingToWork']: day[idx] = 0 
 
-        mask = np.asarray(available_times)
-        # return json.dumps(available_times) #FOR DEBUGGING
-        
-        mask = mask.astype(int)
-        model_output = simple_model(weights, mask, user['hoursPerWeek'], CALENDAR_SIZE, dates, verbose= False)
-        # return json.dumps(model_output.tolist()) #FOR DEBUGGING. generate_calendear_matrix transposes this matrix to get the true recommendation
+        mask = 1 - np.asarray(available_times)
+        mask = np.transpose(mask)
+        # return json.dumps(available_times) #FOR DEBUGGING available_times
+        # return json.dumps(mask.tolist()) #FOR DEBUGGING mask
+        # return json.dumps( [mask.shape] ) #FOR DEBUGGING
+
+        model_output = simple_model(weights, mask.astype(bool), user['hoursPerWeek'], CALENDAR_SIZE, dates, verbose= False)
+        # return json.dumps((np.transpose(model_output).astype(int)).tolist()) #FOR DEBUGGING. generate_calendear_matrix transposes this matrix to get the true recommendation
 
         #simple_model --> tranpose (24,x) to (x, 24) --> json
         df = generate_calendar_matrix(model_output, dates, CALENDAR_SIZE)
         df_dict = df.to_dict('dict')
-
 
         final_dic = {}
         for key, val in df_dict.items():
