@@ -70,7 +70,7 @@ def events_data(CALENDAR_SIZE):
 
 
 def weighted_average(traffic, events, weights, CALENDAR_SIZE, hours = 20, mask = None):
-    weighted_av = traffic #weights['traffic'] * traffic + weights['events'] * events
+    weighted_av = weights['traffic'] * traffic #weights['traffic'] * traffic + weights['events'] * events
     weighted_av = weighted_av - np.min(weighted_av)
     if not mask is None:
         weighted_av[mask] = np.min(weighted_av) - 1
