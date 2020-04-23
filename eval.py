@@ -10,7 +10,9 @@ heatmap = np.zeros((24, 7)) #TALLEY
 for postdata in data:
     user = postdata['user']
     availability = postdata['availability']
-
+    if (user['extentFrustratedInTraffic'] == 3):
+        user['extentFrustratedInTraffic'] = 4
+    
     weights = {'traffic': 1,
               'events' : 1}
     weights['traffic'] = -1 *(user['extentFrustratedInTraffic'] - 3)/2
