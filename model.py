@@ -85,7 +85,6 @@ def edge_link(wav_thresh):
         
 
 def simple_model(weights, mask, hours, CALENDAR_SIZE, dates, verbose = False): 
-    np.random.seed(8)
     #get traffic data 
     traffic = traffic_data(dates, CALENDAR_SIZE)
 
